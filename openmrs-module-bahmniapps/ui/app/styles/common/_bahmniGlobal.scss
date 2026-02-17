@@ -392,3 +392,21 @@ u,
     width: auto !important;
   }
 }
+
+input[readonly].nepali-datepicker {
+  cursor: text;
+  background-color: #FFF;
+  color: #363463;
+}
+
+input[readonly]:focus.nepali-datepicker {
+  outline: 2px solid #007FFF;
+  background-color: #FFFDF7;
+  cursor:text;
+}
+
+body div.nepali-datepicker {
+  z-index: 99999;
+}
+
+

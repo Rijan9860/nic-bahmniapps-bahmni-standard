@@ -21,6 +21,7 @@ module.exports = function (grunt) {
         'components/ng-tags-input/ng-tags-input.bootstrap.min.css',
         'components/ng-tags-input/ng-tags-input.min.css',
         'components/jquery-ui/themes/smoothness/jquery-ui.min.css',
+        // 'components/nepali-date-picker/dist/nepaliDatePicker.min.css',
         'micro-frontends-dist/shared.min.css',
         'micro-frontends-dist/ipd.min.css',
         'micro-frontends-dist/next-ui.min.css'
@@ -73,6 +74,7 @@ module.exports = function (grunt) {
         'components/html2canvas/html2canvas.min.js',
         'components/marked/marked.min.js',
         'components/lib-jitsi-meet/external_api.min.js',
+        // 'components/nepali-date-picker/dist/nepaliDatePicker.min.js',
 
         'micro-frontends-dist/shared.min.js',
         'micro-frontends-dist/ipd.min.js',
