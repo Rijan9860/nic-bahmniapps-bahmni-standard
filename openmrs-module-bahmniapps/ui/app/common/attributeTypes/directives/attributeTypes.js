@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [function () {
-    console.log("Hello World");
     return {
         scope: {
             targetModel: '=',
@@ -39,21 +38,19 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
                 console.log("Check NHIS Number");
                 var nhisNumber = $scope.targetModel["NHIS Number"];
                 console.log("NHIS Number---->", nhisNumber);
+                // $scope.targetModel["Is NHIS Active"] = false;
                 document.getElementById("hibNo").innerHTML = nhisNumber;
                 var linkedurl = "https://imis.hib.gov.np/InsureeProfile.aspx?nshid=" + nhisNumber;
-                console.log("Linked Url", linkedurl);
                 document.getElementById("linktoHMIS").href = linkedurl;
                 document.getElementById("hibEligibilityDialog").classList.toggle("hideDialogEl");
                 try {
                     var xmlhttp = new XMLHttpRequest();
-                    console.log("xmlhttp->", xmlhttp);
                     var url = "https://192.168.56.101:4433/insurance/Eligibility.php?identifier=" + nhisNumber;
                     console.log("The URL:", url);
                     xmlhttp.open("GET", url);
                     xmlhttp.onload = function () {
                         if (this.status == 200) {
                             var data = JSON.parse(this.responseText);
-                            console.log("Data", data);
                             var patientInfo = JSON.parse(data.info);
                             console.log("Patient Information", patientInfo);
                             var eligibility = JSON.parse(data.eligibility);
@@ -115,6 +112,12 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
                             document.getElementById("hibUsed-med").innerHTML = usedMoneyMed;
                             document.getElementById("hibUsed-opd").innerHTML = usedMoneyOpd;
                             document.getElementById("hibCopayment").innerHTML = isCopayment;
+                            if (totalMoneyMed - usedMoneyMed > 50 || totalMoneyOpd - usedMoneyOpd > 50) {
+                                document.getElementById("Is NHIS Active").checked = true;
+                            }
+                            else {
+                                document.getElementById("Is NHIS Active").checked = false;
+                            }
                         }
                     };
                     xmlhttp.send();
