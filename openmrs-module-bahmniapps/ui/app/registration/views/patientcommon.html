@@ -1,4 +1,127 @@
 <div ng-controller="PatientCommonController">
+    <style>
+        .hideDialogEl{
+            display: none;
+        }
+        .photoCaptureDialog .photo-canvas-container canvas, .photoUploadDialog .photo-canvas-container canvas {
+            border: 2px solid #FFFFFF;
+            height: 167px;
+            width: 175px;
+            background: #eee;
+        }
+        .photoCaptureDialog .photo-canvas-container {
+            float: left;
+            width: 188px;
+            margin-top: 6px;
+            margin-left: 30px !important;
+        }
+        #photo-canvas-container {
+            text-align: center;    
+        }
+        .photoUploadDialog .fileUpload, .photoUploadDialog .photo-canvas-container, .photoUploadDialog .confirmImage {
+            margin: 10px 5px 5px 5px;
+        }
+    </style>
+    <div class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable hideDialogEl" tabindex="-1"
+        role="dialog" aria-describedby="ui-id-22" id="hibEligibilityDialog" aria-labelledby="ui-id-23" style="position: fixed;margin-left: 40%;margin-top: 15%;">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            <span id="ui-id-23" class="ui-dialog-title">Health Insurance Data of <span id="hibNo"></span></span>
+            <button type="button"
+                class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close"
+                role="button" aria-disabled="false" title="close" onclick="closeElDialog()">
+                <span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+                <span class="ui-button-text">close</span>
+            </button>
+        </div>
+        <div class="photoCaptureDialog container-fluid ui-dialog-content ui-widget-content" id="ui-id-22" title="Take Patient's Photo">
+            <div class="row-clear "> 
+                <div id="photo-canvas-container" class="photo-canvas-container" style="padding-left: 25%;">
+                    <a href="#" id="linktoHMIS" target="_blank">  
+                        <img src="../images/blank-user.gif" height="180" width="180" id="hibImage"/>
+                    </a>
+                </div>
+                <table>
+                    <tr>
+                        <th> 
+                            <span>Name:</span>
+                        </th> 
+                        <td>
+                            <span id="hibName"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th> 
+                            <span>Contact:</span>
+                        </th> 
+                        <td>
+                            <span id="hibContact"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th> 
+                            <span>Gender:</span>
+                        </th> 
+                        <td>
+                            <span id="hibGender"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th> 
+                            <span>Date of Birth:</span>
+                        </th> 
+                        <td>
+                            <span id="hibDob"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th> 
+                            <span>Category:</span>
+                        </th> 
+                        <td>
+                            <span id="hibCategory-med"></span> /
+                            <span id="hibCategory-opd"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th> 
+                            <span>Allowed Money:</span>
+                        </th> 
+                        <td>
+                            <span id="hibAllowed-med"></span> /
+                            <span id="hibAllowed-opd"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th> 
+                            <span>Used Money:</span>
+                        </th> 
+                        <td>
+                            <span id="hibUsed-med"></span> /
+                            <span id="hibUsed-opd"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span>Copayment:</span>
+                        </th>
+                        <td>
+                            <span id="hibCopayment"></span>
+                        </td>
+                    </tr>
+                </table> 
+            </div>
+            <div class="row-clear">
+            </div>
+        </div>
+        <div class="ui-resizable-handle ui-resizable-n" style="z-index: 90;"></div>
+        <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div>
+        <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div>
+        <div class="ui-resizable-handle ui-resizable-w" style="z-index: 90;"></div>
+        <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div>
+        <div class="ui-resizable-handle ui-resizable-sw" style="z-index: 90;"></div>
+        <div class="ui-resizable-handle ui-resizable-ne" style="z-index: 90;"></div>
+        <div class="ui-resizable-handle ui-resizable-nw" style="z-index: 90;"></div>
+    </div>
     <div class="box-container box-container-patient-info patient-common-info-container">
         <section>
             <article class="form-field patient-name-wrapper" ng-if="::patientConfiguration.local()['showNameField']">
@@ -222,3 +345,8 @@
         </section>
     </div>
 </div>
+<script>
+    function closeElDialog() {
+        document.getElementById("hibEligibilityDialog").classList.toggle("hideDialogEl");
+    }
+</script>
