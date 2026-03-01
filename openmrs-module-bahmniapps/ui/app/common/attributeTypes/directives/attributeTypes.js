@@ -37,8 +37,6 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
             $scope.checkNHISNumber = function (attribute) {
                 console.log("Check NHIS Number");
                 var nhisNumber = $scope.targetModel["NHIS Number"];
-                console.log("NHIS Number---->", nhisNumber);
-                // $scope.targetModel["Is NHIS Active"] = false;
                 document.getElementById("hibNo").innerHTML = nhisNumber;
                 var linkedurl = "https://imis.hib.gov.np/InsureeProfile.aspx?nshid=" + nhisNumber;
                 document.getElementById("linktoHMIS").href = linkedurl;
@@ -46,7 +44,6 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
                 try {
                     var xmlhttp = new XMLHttpRequest();
                     var url = "https://192.168.56.101:4433/insurance/Eligibility.php?identifier=" + nhisNumber;
-                    console.log("The URL:", url);
                     xmlhttp.open("GET", url);
                     xmlhttp.onload = function () {
                         if (this.status == 200) {
@@ -118,6 +115,26 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
                             else {
                                 document.getElementById("Is NHIS Active").checked = false;
                             }
+                        }
+                    };
+                    xmlhttp.send();
+                }
+                catch (err) {
+                    alert("" + err);
+                }
+            };
+            $scope.generateClaimCode = function () {
+                console.log("Generate Claim Code");
+                try {
+                    var xmlhttp = new XMLHttpRequest();
+                    var url = "https://192.168.56.101:4433/insurance/getClaimCode.php";
+                    xmlhttp.open("GET", url);
+                    xmlhttp.onload = function () {
+                        if (this.status == 200) {
+                            var claimCode = this.responseText;
+                            console.log("Claim Code: ", claimCode);
+                            $scope.targetModel["Claim Code"] = claimCode;
+                            document.getElementById("Claim Code").value = claimCode;
                         }
                     };
                     xmlhttp.send();
