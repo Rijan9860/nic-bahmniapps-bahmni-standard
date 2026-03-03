@@ -126,6 +126,17 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
                     alert("" + error.status);
                 });
             };
+            $scope.generateIpdNumber = function () {
+                console.log("Generate Ipd Number");
+                var url = "https://192.168.56.101:4433/insurance/getIpdNumber.php";
+                $http.get(url).then(function (response) {
+                    var ipdNumber = response.data;
+                    console.log("IPD Number", ipdNumber);
+                    document.getElementById("IPD Number").value = ipdNumber;
+                }).catch(function (error) {
+                    alert("" + error.status);
+                });
+            };
         }
     };
 }]);
