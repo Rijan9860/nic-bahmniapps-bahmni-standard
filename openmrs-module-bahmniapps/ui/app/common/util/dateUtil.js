@@ -310,5 +310,9 @@ Bahmni.Common.Util.DateUtil = {
     },
     getWeekEndDate: function (weekStartDate) {
         return moment(weekStartDate).add(6, 'days').toDate();
+    },
+    isValid: function (date) {
+        var dateRepresentation = isNaN(Number(date)) ? date : Number(date);
+        return moment(dateRepresentation).isValid();
     }
 };

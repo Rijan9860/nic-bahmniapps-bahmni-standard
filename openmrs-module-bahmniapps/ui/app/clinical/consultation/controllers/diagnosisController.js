@@ -16,6 +16,8 @@ angular.module('bahmni.clinical')
             };
             $scope.consultation.followUpConditions = $scope.consultation.followUpConditions || [];
 
+            $scope.enableNepaliCalendar = appService.getAppDescriptor().getConfigValue('enableNepaliCalendar');
+
             _.forEach($scope.consultation.conditions, function (condition) {
                 condition.isFollowUp = _.some($scope.consultation.followUpConditions, {value: condition.uuid});
             });
