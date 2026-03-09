@@ -5,6 +5,7 @@ angular.module('bahmni.clinical')
         function (patientVisitHistoryService, conceptSetService, spinner, $state, $q, $translate, appService) {
             var controller = function ($scope) {
                 $scope.enableIPDFeature = appService.getAppDescriptor().getConfigValue('enableIPDFeature');
+                $scope.displayNepaliDates = appService.getAppDescriptor().getConfigValue('displayNepaliDates');
                 var emitNoDataPresentEvent = function () {
                     $scope.$emit("no-data-present-event");
                 };
