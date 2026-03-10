@@ -17,7 +17,7 @@
                 <span class="asterick" ng-show="::dobMandatory">*</span>
             </label>
             <div class="field-value">
-                <input class="nepali-datepicker" id="birthdate-bs" type="text" 
+                <input class="nepali-datepicker" id="birthdate-bs" type="text" max="{{::npToday}}"
                     ng-model="patient.birthdateBS" ng-change="patient.updateAdDate(); patient.calculateAge();" ng-required="::dobMandatory" npdatepicker>
             </div>
         </div>

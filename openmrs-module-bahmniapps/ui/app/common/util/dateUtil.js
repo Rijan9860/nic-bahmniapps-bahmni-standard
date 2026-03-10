@@ -314,5 +314,10 @@ Bahmni.Common.Util.DateUtil = {
     isValid: function (date) {
         var dateRepresentation = isNaN(Number(date)) ? date : Number(date);
         return moment(dateRepresentation).isValid();
+    },
+    npToday: function () {
+        var currentDate = this.now();
+        var currentNepaliDate = calendarFunctions.getBsDateByAdDate(currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDate());
+        return calendarFunctions.bsDateFormat("%y-%m-%d", currentNepaliDate.bsYear, currentNepaliDate.bsMonth, currentNepaliDate.bsDate);
     }
 };

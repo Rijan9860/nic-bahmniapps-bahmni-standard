@@ -20,6 +20,7 @@ angular.module('bahmni.registration')
             $scope.showSaveAndContinueButton = false;
             $scope.regExtPoints = appService.getAppDescriptor().getExtensions("org.bahmni.registration.identifier", "link");
             $scope.enableNepaliCalendar = appService.getAppDescriptor().getConfigValue("enableNepaliCalendar");
+            $scope.npToday = Bahmni.Common.Util.DateUtil.npToday();
 
             $scope.showExtIframe = false;
             var identifierExtnMap = new Map();

@@ -7,24 +7,14 @@ angular.module('bahmni.common.uiHelper')
             require: 'ngModel',
             link: function ($scope, element, attrs) {
                 $timeout(function () {
-                    var currentDate = new Date();
-                    var currentNepaliDate = calendarFunctions.getBsDateByAdDate(
-                        currentDate.getFullYear(),
-                        currentDate.getMonth() + 1,
-                        currentDate.getDate()
-                    );
-                    var formattedNepaliDate = calendarFunctions.bsDateFormat(
-                        "%y-%m-%d",
-                        currentNepaliDate.bsYear,
-                        currentNepaliDate.bsMonth,
-                        currentNepaliDate.bsDate
-                    );
-                    var allowFuture = attrs.allowFutureDates === "true";
+                    if (attrs.allowFutureDates) {
+                        attrs.max = "";
+                    }
                     element.nepaliDatePicker({
                         dateFormat: "%y-%m-%d",
                         closeOnDateSelect: true,
                         minDate: attrs.min || null,
-                        maxDate: allowFuture ? null : formattedNepaliDate
+                        maxDate: attrs.max || null
                     });
                 }, 400);
                 element.on('dateSelect', function (event) {
