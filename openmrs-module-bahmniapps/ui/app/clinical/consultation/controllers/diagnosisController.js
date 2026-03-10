@@ -17,6 +17,8 @@ angular.module('bahmni.clinical')
             $scope.consultation.followUpConditions = $scope.consultation.followUpConditions || [];
 
             $scope.enableNepaliCalendar = appService.getAppDescriptor().getConfigValue('enableNepaliCalendar');
+            $scope.displayNepaliDates = appService.getAppDescriptor().getConfigValue('displayNepaliDates');
+            $scope.npToday = Bahmni.Common.Util.DateUtil.npToday();
 
             _.forEach($scope.consultation.conditions, function (condition) {
                 condition.isFollowUp = _.some($scope.consultation.followUpConditions, {value: condition.uuid});
@@ -572,6 +574,15 @@ angular.module('bahmni.clinical')
 
             $scope.isValid = function (diagnosis) {
                 return diagnosis.isValidAnswer() && diagnosis.isValidOrder() && diagnosis.isValidCertainty();
+            };
+
+            $scope.handleNepaliDateUpdate = function (consultation) {
+                var conditionDateNepali = consultation.condition.onSetDateNepaliDate;
+                if (conditionDateNepali) {
+                    var dateStr = conditionDateNepali.split("-");
+                    var dateAd = calendarFunctions.getAdDateByBsDate(calendarFunctions.getNumberByNepaliNumber(dateStr[0]), calendarFunctions.getNumberByNepaliNumber(dateStr[1]), calendarFunctions.getNumberByNepaliNumber(dateStr[2]));
+                    consultation.condition.onSetDate = dateAd;
+                }
             };
 
             $scope.isRetrospectiveMode = retrospectiveEntryService.isRetrospectiveMode;

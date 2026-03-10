@@ -42,7 +42,9 @@
             <div class="col col3">
                 <div class="col-header">{{'CONDITION_LIST_DATE' | translate}}</div>
                 <div class="col-body">
-                    <input date-converter class="form-field" type="date" max="{{todayWithoutTime}}"
+                    <input ng-if="enableNepaliCalendar" class="nepali-datepicker" type="text" max="{{::npToday}}" ng-model="consultation.condition.onSetDateNepaliDate"
+                        ng-change="handleNepaliDateUpdate(consultation)" consultation="consultation" placeholder="yyyy-mm-dd" npdatepicker>
+                    <input date-converter class="form-field" type="date" ng-if="!enableNepaliCalendar" max="{{todayWithoutTime}}"
                         ng-model="consultation.condition.onSetDate">
                     <button type="button" toggle="consultation.condition.showNotes" class="comment-toggle fr"
                         ng-class="{'has-notes': consultation.condition.additionalDetail}">
