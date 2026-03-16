@@ -3,6 +3,7 @@
 angular.module('bahmni.clinical')
     .directive('newDrugOrders', ['messagingService', function (messagingService) {
         var controller = function ($scope, $rootScope, appService) {
+            $scope.displayNepaliDates = appService.getAppDescriptor().getConfigValue('displayNepaliDates');
             var allMedicinesConfig = appService.getAppDescriptor().getConfigValue("allMedicinesInPrescriptionAvailableForIPD");
             $scope.allMedicinesInPrescriptionAvailableForIPD = allMedicinesConfig !== null ? allMedicinesConfig : true;
             if (!$scope.allMedicinesInPrescriptionAvailableForIPD) {

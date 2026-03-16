@@ -61,7 +61,8 @@
                 </div>
             </div>
             <div class="start-date fr">
-                <span>from {{newTreatment.effectiveStartDate | bahmniDate}}</span>
+                <span ng-if="displayNepaliDates">from {{newTreatment.effectiveStartDate | npDate}}</span>
+                <span ng-if="!displayNepaliDates">from {{newTreatment.effectiveStartDate | bahmniDate}}</span>
             </div>
             <div class="dosage-details">
                 <div>
