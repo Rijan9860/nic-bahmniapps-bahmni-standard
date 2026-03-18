@@ -5,7 +5,6 @@ angular.module('bahmni.clinical')
         function ($scope, clinicalAppConfigService, treatmentConfig, $stateParams, $rootScope, cdssService, appService, $filter) {
             $scope.enableNepaliCalendar = appService.getAppDescriptor().getConfigValue('enableNepaliCalendar');
             $scope.displayNepaliDates = appService.getAppDescriptor().getConfigValue('displayNepaliDates');
-            console.log("Display Nepali Dates", $scope.displayNepaliDates);
             $scope.npToday = Bahmni.Common.Util.DateUtil.npToday();
             var init = function () {
                 var drugOrderHistoryConfig = treatmentConfig.drugOrderHistoryConfig || {};
@@ -59,30 +58,22 @@ angular.module('bahmni.clinical')
             };
 
             $scope.handleDateUpdate = function (treatment) {
-                console.log("Entered Handle Date Update");
                 var treatmentStartDate = treatment.effectiveStartDate;
-                console.log("Treatment Start Date", treatmentStartDate);
                 treatment.effectiveStartDateNepali = convertAdToBs(treatmentStartDate);
             };
 
             $scope.handleOrderSetDateUpdate = function (newOrderSet) {
-                console.log("Entered Handle Order Set Update");
                 var orderSetDate = newOrderSet.date;
-                console.log("Order Set Date", orderSetDate);
                 newOrderSet.nepaliDate = convertAdToBs(orderSetDate);
             };
 
             $scope.handleNepaliDateUpdate = function (treatment) {
-                console.log("Handle Nepali Date Update");
                 var nepaliDate = treatment.effectiveStartDateNepali;
-                console.log("Nepali Date", nepaliDate);
                 treatment.effectiveStartDate = convertBsToAd(nepaliDate);
             };
 
             $scope.handleOrderSetNepaliDateUpdate = function (newOrderSet) {
-                console.log("Entered Handle Order Set Nepali Date");
                 var nepaliDate = newOrderSet.nepaliDate;
-                console.log("Nepali Date", nepaliDate);
                 newOrderSet.date = convertBsToAd(nepaliDate);
             };
 

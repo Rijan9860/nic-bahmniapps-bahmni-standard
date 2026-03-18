@@ -5,6 +5,9 @@ angular.module('bahmni.clinical')
         'messagingService', 'bacteriologyConceptSet', 'appService', 'retrospectiveEntryService',
         function ($scope, $state, $rootScope, contextChangeHandler, spinner, conceptSetService, messagingService, bacteriologyConceptSet,
                   appService, retrospectiveEntryService) {
+            $scope.enableNepaliCalendar = appService.getAppDescriptor().getConfigValue('enableNepaliCalendar');
+            $scope.displayNepaliDates = appService.getAppDescriptor().getConfigValue('displayNepaliDates');
+            $scope.npToday = Bahmni.Common.Util.DateUtil.npToday();
             $scope.consultation.extensions = $scope.consultation.extensions ? $scope.consultation.extensions : {mdrtbSpecimen: []};
             var initializeBacteriologyScope = function () {
                 $scope.savedSpecimens = $scope.consultation.savedSpecimens || $scope.consultation.extensions.mdrtbSpecimen;
@@ -151,6 +154,37 @@ angular.module('bahmni.clinical')
 
             contextChangeHandler.add(contextChange);
 
+            $scope.handleDateUpdate = function (newSpecimen) {
+                var sampleCollectionDate = newSpecimen.dateCollected;
+                newSpecimen.dateCollectedNepali = convertAdToBs(sampleCollectionDate);
+            };
+
+            $scope.handleNepaliDateUpdate = function (newSpecimen) {
+                var nepaliDate = newSpecimen.dateCollectedNepali;
+                newSpecimen.dateCollected = convertBsToAd(nepaliDate);
+            };
+
+            var convertAdToBs = function (date) {
+                if (date) {
+                    var nepaliDate = calendarFunctions.getBsDateByAdDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+                    return calendarFunctions.bsDateFormat("%y-%m-%d", nepaliDate.bsYear, nepaliDate.bsMonth, nepaliDate.bsDate);
+                }
+                else {
+                    return '';
+                }
+            };
+
+            var convertBsToAd = function (nepaliDate) {
+                if (nepaliDate) {
+                    var dateStr = nepaliDate.split("-");
+                    var dateAd = calendarFunctions.getAdDateByBsDate(calendarFunctions.getNumberByNepaliNumber(dateStr[0]), calendarFunctions.getNumberByNepaliNumber(dateStr[1]), calendarFunctions.getNumberByNepaliNumber(dateStr[2]));
+                    var date = new Date(dateAd);
+                    return date;
+                }
+                else {
+                    return '';
+                }
+            };
             init();
         }
     ])
