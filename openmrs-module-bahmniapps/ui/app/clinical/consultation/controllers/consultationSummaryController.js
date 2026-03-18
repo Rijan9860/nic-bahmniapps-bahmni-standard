@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bahmni.clinical')
-    .controller('ConsultationSummaryController', ['$scope', '$state', 'conceptSetUiConfigService', 'conceptGroupFormatService', function ($scope, $state, conceptSetUiConfigService, conceptGroupFormatService) {
+    .controller('ConsultationSummaryController', ['$scope', '$state', 'conceptSetUiConfigService', 'conceptGroupFormatService', 'appService', function ($scope, $state, conceptSetUiConfigService, conceptGroupFormatService, appService) {
         var geEditedDiagnosesFromPastEncounters = function () {
             var editedDiagnosesFromPastEncounters = [];
             $scope.consultation.pastDiagnoses.forEach(function (pastDiagnosis) {
@@ -12,7 +12,8 @@ angular.module('bahmni.clinical')
             return editedDiagnosesFromPastEncounters;
         };
         $scope.editedDiagnosesFromPastEncounters = geEditedDiagnosesFromPastEncounters();
-
+        $scope.displayNepaliDates = appService.getAppDescriptor().getConfigValue('displayNepaliDates');
+        console.log("Display Nepali Dates", $scope.displayNepaliDates);
         $scope.onNoteChanged = function () {
 //        TODO: Mihir, D3 : Hacky fix to update the datetime to current datetime on the server side. Ideal would be void the previous observation and create a new one.
             $scope.consultation.consultationNote.observationDateTime = null;
