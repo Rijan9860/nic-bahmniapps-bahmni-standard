@@ -11,7 +11,8 @@
                 <thead ng-if="::!params.hideResultsColumn">
                     <tr>
                         <th nowrap>&nbsp;</th>
-                        <td nowrap ng-repeat="dateLabel in accessions.getDateLabels()">{{::dateLabel.date | bahmniDate}}</td>
+                        <td ng-if="displayNepaliDates" nowrap ng-repeat="dateLabel in accessions.getDateLabels()">{{::dateLabel.date | npDate}}</td>
+                        <td ng-if="!displayNepaliDates" nowrap ng-repeat="dateLabel in accessions.getDateLabels()">{{::dateLabel.date | bahmniDate}}</td>
                     </tr>
                 </thead>
                 <tbody>

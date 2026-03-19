@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('bahmni.common.displaycontrol.pacsOrders')
-    .directive('pacsOrders', ['orderService', 'orderTypeService', 'spinner', 'messagingService', '$window', '$translate', 'pacsService',
-        function (orderService, orderTypeService, spinner, messagingService, $window, $translate, pacsService) {
+    .directive('pacsOrders', ['orderService', 'orderTypeService', 'spinner', 'messagingService', '$window', '$translate', 'pacsService', 'appService',
+        function (orderService, orderTypeService, spinner, messagingService, $window, $translate, pacsService, appService) {
             var controller = function ($scope) {
+                $scope.displayNepaliDates = appService.getAppDescriptor().getConfigValue('displayNepaliDates');
                 $scope.orderTypeUuid = orderTypeService.getOrderTypeUuid($scope.orderType);
                 const radiologyImageUrl = $scope.section.pacsStudyUrl || "/oviyam2/viewer.html?patientID={{patientID}}&studyUID={{studyUID}}";
                 var includeAllObs = true;

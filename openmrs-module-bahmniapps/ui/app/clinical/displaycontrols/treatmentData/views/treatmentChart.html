@@ -5,7 +5,8 @@
             <thead>
             <tr>
                 <th>
-                    <span>{{::(visitSummary.startDateTime | bahmniDate) + ' - '+ (getVisitStopDateTime() | bahmniDate)}}</span>
+                    <span ng-if="displayNepaliDates">{{::(visitSummary.startDateTime | npDate) + ' - '+ (getVisitStopDateTime() | npDate)}}</span>
+                    <span ng-if="!displayNepaliDates">{{::(visitSummary.startDateTime | bahmniDate) + ' - '+ (getVisitStopDateTime() | bahmniDate)}}</span>
                 </th>
                 <th ng-repeat="drug in ::ipdDrugOrders.getIPDDrugs()" class="drug"
                     ng-class="{active: drug.isActive()}">{{drug.orders[0].getDisplayName()}}</th>
@@ -15,7 +16,11 @@
             <tbody>
             <tr ng-repeat="day in ::ipdDrugOrders.ipdDrugSchedule.days" ng-if="atLeastOneDrugForDay(day)">
                 <td>
-                <span>
+                <span ng-if="displayNepaliDates">
+                    <!-- D{{day.dayNumber}} ({{day.date | npDate}}) -->
+                    {{day.date | npDate}}
+                </span>
+                <span ng-if="!displayNepaliDates">
                     <!-- D{{day.dayNumber}} ({{day.date | bahmniDate}}) -->
                     {{day.date | bahmniDate}}
                 </span>

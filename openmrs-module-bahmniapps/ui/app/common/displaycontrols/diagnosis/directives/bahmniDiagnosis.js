@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('bahmni.common.displaycontrol.diagnosis')
-    .directive('bahmniDiagnosis', ['diagnosisService', '$q', 'spinner', '$rootScope', '$filter', '$translate', 'providerInfoService',
-        function (diagnosisService, $q, spinner, $rootScope, $filter, $translate, providerInfoService) {
+    .directive('bahmniDiagnosis', ['diagnosisService', '$q', 'spinner', '$rootScope', '$filter', '$translate', 'providerInfoService', 'appService',
+        function (diagnosisService, $q, spinner, $rootScope, $filter, $translate, providerInfoService, appService) {
             var controller = function ($scope) {
+                $scope.displayNepaliDates = appService.getAppDescriptor().getConfigValue('displayNepaliDates');
                 var getAllDiagnosis = function () {
                     return diagnosisService.getDiagnoses($scope.patientUuid, $scope.visitUuid).then(function (response) {
                         var diagnosisMapper = new Bahmni.DiagnosisMapper($rootScope.diagnosisStatus);

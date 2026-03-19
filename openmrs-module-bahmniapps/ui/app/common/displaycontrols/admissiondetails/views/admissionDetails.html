@@ -14,7 +14,10 @@
                 <td class="name">
                     <span class="disposition-state">{{ 'ADMISSION_DATE_LABEL'|translate }}</span>
                 </td>
-                <td class="value" ng-if="::visitSummary.admissionDetails">
+                <td ng-if="displayNepaliDates" class="value" ng-if="::visitSummary.admissionDetails">
+                    {{::visitSummary.admissionDetails.date | npDate}}
+                </td>
+                <td ng-if="!displayNepaliDates" class="value" ng-if="::visitSummary.admissionDetails">
                     {{::visitSummary.admissionDetails.date | bahmniDate}}
                 </td>
                 <td ng-if="showDetailsButton(visitSummary.admissionDetails)">
@@ -37,7 +40,10 @@
                 <td class="name">
                     <span class="disposition-state">{{ 'DISCHARGE_DATE_LABEL'|translate }}</span>
                 </td>
-                <td class="value">
+                <td ng-if="displayNepaliDates" class="value">
+                    {{::visitSummary.dischargeDetails.date| npDate}}
+                </td>
+                <td ng-if="!displayNepaliDates" class="value">
                     {{::visitSummary.dischargeDetails.date| bahmniDate}}
                 </td>
                 <td ng-if="showDetailsButton(visitSummary.dischargeDetails)">

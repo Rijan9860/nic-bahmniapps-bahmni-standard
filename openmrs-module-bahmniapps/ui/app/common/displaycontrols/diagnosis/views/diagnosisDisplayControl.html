@@ -25,7 +25,8 @@
                                    class="order">{{::translateDiagnosisLabels(diagnosis.order , 'ORDER') |translate}}</span>
                 <span id="status" class="status">{{::translateDiagnosisLabels(diagnosis.diagnosisStatus, 'STATUS') |translate}}</span>
                 <span class="toggle-btn-date-wrapper">
-                <span ng-if="::!config.hideVisitDate" id="diagnosisDate" class="date">{{::diagnosis.diagnosisDateTime | bahmniDate}}</span>
+                <span ng-if="::!config.hideVisitDate && displayNepaliDates" id="diagnosisDate" class="date">{{::diagnosis.diagnosisDateTime | npDate}}</span>
+                <span ng-if="::!config.hideVisitDate && !displayNepaliDates" id="diagnosisDate" class="date">{{::diagnosis.diagnosisDateTime | bahmniDate}}</span>
                 <span class="toggle-btn" toggle="diagnosis.showDetails"
                       ng-show="::(!diagnosis.comments && (config.showDetailsButton == true))">
                     <button class="toggle fr" ng-class="::{'has-notes': diagnosis.comments}">
@@ -43,7 +44,8 @@
                       class="order">{{::diagnosis.latestDiagnosis.order}}</span>
                 <span id="status" class="status">{{::translateDiagnosisLabels(diagnosis.latestDiagnosis.diagnosisStatus , 'STATUS') |translate}}</span>
                 <span class="toggle-btn-date-wrapper">
-                    <span ng-if="::!config.hideVisitDate" id="diagnosisDate" class="date">{{::diagnosis.latestDiagnosis.diagnosisDateTime | bahmniDate}}</span>
+                    <span ng-if="::!config.hideVisitDate && displayNepaliDates" id="diagnosisDate" class="date">{{::diagnosis.latestDiagnosis.diagnosisDateTime | npDate}}</span>
+                    <span ng-if="::!config.hideVisitDate && !displayNepaliDates" id="diagnosisDate" class="date">{{::diagnosis.latestDiagnosis.diagnosisDateTime | bahmniDate}}</span>
                     <span class="toggle-btn" toggle="diagnosis.showDetails"
                           ng-show="::(!diagnosis.comments && (config.showDetailsButton == true))">
                     <button class="toggle fr" ng-class="::{'has-notes': diagnosis.comments}">

@@ -7,7 +7,10 @@
                 <td class="name">
                     <span class="disposition-state">{{::getDisplayName(disposition)}}</span>
                 </td>
-                <td class="value">
+                <td ng-if="displayNepaliDates" class="value">
+                    {{::disposition.dispositionDateTime| npDate}}
+                </td>
+                <td ng-if="!displayNepaliDates" class="value">
                     {{::disposition.dispositionDateTime| bahmniDate}}
                 </td>
                 <td class="toggle-btn" ng-if="::showDetailsButton(disposition)" toggle="disposition.show">

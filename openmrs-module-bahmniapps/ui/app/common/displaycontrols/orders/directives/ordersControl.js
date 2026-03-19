@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('bahmni.common.displaycontrol.orders')
-    .directive('ordersControl', ['orderService', 'orderTypeService', '$q', 'spinner', '$filter', '$rootScope',
-        function (orderService, orderTypeService, $q, spinner, $filter, $rootScope) {
+    .directive('ordersControl', ['orderService', 'orderTypeService', '$q', 'spinner', '$filter', '$rootScope', 'appService',
+        function (orderService, orderTypeService, $q, spinner, $filter, $rootScope, appService) {
             var controller = function ($scope) {
+                $scope.displayNepaliDates = appService.getAppDescriptor().getConfigValue('displayNepaliDates');
                 $scope.orderTypeUuid = orderTypeService.getOrderTypeUuid($scope.orderType);
                 if ($scope.config.showHeader === null || $scope.config.showHeader === undefined) {
                     $scope.config.showHeader = true;
