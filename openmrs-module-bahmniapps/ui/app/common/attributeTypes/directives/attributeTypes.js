@@ -34,7 +34,7 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
                 var translatedName = Bahmni.Common.Util.TranslationUtil.translateAttribute(attribute, Bahmni.Common.Constants.patientAttribute, $translate);
                 return translatedName;
             };
-            $scope.checkNHISNumber = function (attribute) {
+            $scope.checkNHISNumber = function () {
                 console.log("Check NHIS Number");
                 var nhisNumber = $scope.targetModel["NHIS Number"];
                 document.getElementById("hibNo").innerHTML = nhisNumber;
@@ -125,27 +125,41 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
             };
             $scope.generateClaimCode = function () {
                 console.log("Generate Claim Code");
-                var baseUrl = window.location.origin + ":4433";
-                var url = baseUrl + "/insurance/getClaimCode.php";
-                $http.get(url).then(function (response) {
-                    var claimCode = response.data;
-                    console.log("Claim Code", claimCode);
-                    document.getElementById("Claim Code").value = claimCode;
-                }).catch(function (error) {
-                    alert("" + error.status);
-                });
+                try {
+                    var xmlhttp = new XMLHttpRequest();
+                    var baseUrl = window.location.origin + ":4433";
+                    var url = baseUrl + "/insurance/getClaimCode.php";
+                    xmlhttp.open("GET", url);
+                    xmlhttp.onload = function () {
+                        if (this.status == 200) {
+                            var claimCode = this.responseText;
+                            document.getElementById("Claim Code").value = claimCode;
+                        }
+                    };
+                    xmlhttp.send();
+                }
+                catch (err) {
+                    alert("" + err);
+                }
             };
             $scope.generateIpdNumber = function () {
                 console.log("Generate Ipd Number");
-                var baseUrl = window.location.origin + ":4433";
-                var url = baseUrl + "/insurance/getIpdNumber.php";
-                $http.get(url).then(function (response) {
-                    var ipdNumber = response.data;
-                    console.log("IPD Number", ipdNumber);
-                    document.getElementById("IPD Number").value = ipdNumber;
-                }).catch(function (error) {
-                    alert("" + error.status);
-                });
+                try {
+                    var xmlhttp = new XMLHttpRequest();
+                    var baseUrl = window.location.origin + ":4433";
+                    var url = baseUrl + "/insurance/getIpdNumber.php";
+                    xmlhttp.open("GET", url);
+                    xmlhttp.onload = function () {
+                        if (this.status == 200) {
+                            var ipdNumber = this.responseText;
+                            document.getElementById("IPD Number").value = ipdNumber;
+                        }
+                    };
+                    xmlhttp.send();
+                }
+                catch (err) {
+                    alert("" + err);
+                }
             };
         }
     };
