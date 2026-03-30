@@ -177,7 +177,7 @@
                     </div>
                     <div class="field-value">
                         <input ng-if="enableNepaliCalendar" class="nepali-datepicker" type="text" ng-model="treatment.effectiveStartDateNepali" 
-                            ng-change="handleNepaliDateUpdate(treatment)" treatment="treatment" placeholder="yyyy-mm-dd" npdatepicker>
+                            ng-change="handleNepaliDateUpdate(treatment)" treatment="treatment" npdatepicker>
                         <input ng-if="!enableNepaliCalendar" id="start-date" date-converter class="start-date " type="date" 
                             ng-model="treatment.effectiveStartDate" ng-change="handleDateUpdate(treatment)" required>
                     </div>
