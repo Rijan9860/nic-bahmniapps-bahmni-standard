@@ -14,7 +14,7 @@ angular.module('bahmni.registration')
             var regEncounterTypeUuid = $rootScope.regEncounterConfiguration.encounterTypes[Bahmni.Registration.Constants.registrationEncounterType];
             var visitLocationUuid = $rootScope.visitLocation;
             var redirectToDashboard = false;
-            $scope.enableDashboardRedirect = _.some($rootScope.currentUser.privileges, {name: "app:clinical"}) && (appService.getAppDescriptor().getConfigValue("enableDashboardRedirect") || Bahmni.Registration.Constants.enableDashboardRedirect);
+            $scope.enableDashboardRedirect = _.some($rootScope.currentUser.privileges, { name: "app:clinical" }) && (appService.getAppDescriptor().getConfigValue("enableDashboardRedirect") || Bahmni.Registration.Constants.enableDashboardRedirect);
 
             var getPatient = function () {
                 var deferred = $q.defer();
@@ -97,7 +97,7 @@ angular.module('bahmni.registration')
                 var createPromise = encounterService.create($scope.encounter);
                 spinner.forPromise(createPromise);
                 return createPromise.then(function (response) {
-                    var messageParams = {encounterUuid: response.data.encounterUuid, encounterType: response.data.encounterType};
+                    var messageParams = { encounterUuid: response.data.encounterUuid, encounterType: response.data.encounterType };
                     auditLogService.log(patientUuid, 'EDIT_ENCOUNTER', messageParams, 'MODULE_LABEL_REGISTRATION_KEY');
                     var visitType, visitTypeUuid;
                     visitTypeUuid = response.data.visitTypeUuid;
@@ -144,7 +144,7 @@ angular.module('bahmni.registration')
                     var visitSummary = response.data;
                     if (visitSummary.admissionDetails && !visitSummary.dischargeDetails) {
                         messagingService.showMessage("error", 'REGISTRATION_VISIT_CANNOT_BE_CLOSED');
-                        var messageParams = {visitUuid: vm.visitUuid, visitType: visitSummary.visitType};
+                        var messageParams = { visitUuid: vm.visitUuid, visitType: visitSummary.visitType };
                         auditLogService.log(patientUuid, 'CLOSE_VISIT_FAILED', messageParams, 'MODULE_LABEL_REGISTRATION_KEY');
                     } else {
                         closeVisit(visitSummary.visitType);
@@ -157,7 +157,7 @@ angular.module('bahmni.registration')
                 if (confirmed) {
                     visitService.endVisit(vm.visitUuid).then(function () {
                         $location.url(Bahmni.Registration.Constants.patientSearchURL);
-                        var messageParams = {visitUuid: vm.visitUuid, visitType: visitType};
+                        var messageParams = { visitUuid: vm.visitUuid, visitType: visitType };
                         auditLogService.log(patientUuid, 'CLOSE_VISIT', messageParams, 'MODULE_LABEL_REGISTRATION_KEY');
                     });
                 }
@@ -255,9 +255,9 @@ angular.module('bahmni.registration')
                 var forwardUrl = appService.getAppDescriptor().getConfigValue("afterVisitSaveForwardUrl");
                 var dashboardUrl = appService.getAppDescriptor().getConfigValue("dashboardUrl") || Bahmni.Registration.Constants.dashboardUrl;
                 if (forwardUrl != null) {
-                    $window.location.href = appService.getAppDescriptor().formatUrl(forwardUrl, {'patientUuid': patientUuid});
+                    $window.location.href = appService.getAppDescriptor().formatUrl(forwardUrl, { 'patientUuid': patientUuid });
                 } else if (dashboardUrl != null && redirectToDashboard) {
-                    $window.location.href = appService.getAppDescriptor().formatUrl(dashboardUrl, {'patientUuid': patientUuid});
+                    $window.location.href = appService.getAppDescriptor().formatUrl(dashboardUrl, { 'patientUuid': patientUuid });
                 } else {
                     $state.transitionTo($state.current, $state.params, {
                         reload: true,
@@ -286,7 +286,7 @@ angular.module('bahmni.registration')
 
             var getConceptSet = function () {
                 var visitType = $scope.encounterConfig.getVisitTypeByUuid($scope.visitTypeUuid);
-                $scope.context = {visitType: visitType, patient: $scope.patient};
+                $scope.context = { visitType: visitType, patient: $scope.patient };
             };
 
             var getObservationForms = function (extensions, observationsForms) {

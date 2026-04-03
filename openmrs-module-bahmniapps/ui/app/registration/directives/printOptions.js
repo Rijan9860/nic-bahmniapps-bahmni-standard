@@ -6,6 +6,25 @@ angular.module('bahmni.registration')
             var controller = function ($scope) {
                 $scope.printOptions = appService.getAppDescriptor().getConfigValue("printOptions");
                 $scope.defaultPrint = $scope.printOptions && $scope.printOptions[0];
+                $scope.prices = $scope.printOptions && $scope.printOptions[0] && $scope.printOptions[0].prices;
+
+                var calculatePriceByVisitType = function () {
+                    var visitType = "";
+                    console.log("Observations", $scope.observations);
+                    for (var i = 0; i < $scope.observations.length; i++) {
+                        if ($scope.observations[i].conceptSetName == "Fee Information") {
+                            visitType = $scope.observations[i].value;
+                        }
+                    }
+                    if (!Object.keys($scope.prices).includes(visitType)) {
+                        return "N/A";
+                    }
+                    var priceIndex = $scope.patient["NHIS Member Active"] ? 1 : 0;
+                    console.log("Price Index", priceIndex);
+                    return (
+                        visitType + " [ Rs." + $scope.prices[visitType][priceIndex] + " ] "
+                    );
+                };
 
                 var mapRegistrationObservations = function () {
                     var obs = {};
@@ -27,7 +46,7 @@ angular.module('bahmni.registration')
                     if (attributeDisplay && attributeDisplay[0] === Bahmni.Registration.Constants.certificateHeader) {
                         locationAddress = attributeDisplay[1];
                     }
-                    return registrationCardPrinter.print(option.templateUrl, $scope.patient, mapRegistrationObservations(), $scope.encounterDateTime, { "name": location.name, "address": locationAddress });
+                    return registrationCardPrinter.print(option.templateUrl, $scope.patient, calculatePriceByVisitType(), $rootScope.currentUser.username, mapRegistrationObservations(), $scope.encounterDateTime, { "name": location.name, "address": locationAddress });
                 };
 
                 $scope.buttonText = function (option, type) {
