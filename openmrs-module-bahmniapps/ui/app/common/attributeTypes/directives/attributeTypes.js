@@ -135,6 +135,7 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
                         if (this.status == 200) {
                             var claimCode = this.responseText;
                             document.getElementById("Claim Code").value = claimCode;
+                            $scope.targetModel["Claim Code"] = claimCode;
                         }
                     };
                     xmlhttp.send();
@@ -154,6 +155,7 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
                         if (this.status == 200) {
                             var ipdNumber = this.responseText;
                             document.getElementById("IPD Number").value = ipdNumber;
+                            $scope.targetModel["IPD Number"] = ipdNumber;
                         }
                     };
                     xmlhttp.send();
