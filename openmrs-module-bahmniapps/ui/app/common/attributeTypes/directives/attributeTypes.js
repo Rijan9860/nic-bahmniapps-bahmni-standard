@@ -54,9 +54,10 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
                         console.log("Eligibility", eligibility);
                         var firstName = patientInfo.entry[0].resource.name[0].given[0];
                         var middleName = "";
-                        if (firstName.split(" ").length > 1) {
-                            firstName = firstName.split(" ")[0];
-                            middleName = firstName.split(" ")[1];
+                        if (firstName) {
+                            const parts = firstName.trim().split(/\s+/);
+                            firstName = parts[0] || "";
+                            middleName = parts[1] || "";
                         }
                         var imageUrl = eligibility.extension[0].valueString;
                         var familyName = patientInfo.entry[0].resource.name[0].family;
