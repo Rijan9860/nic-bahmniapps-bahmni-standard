@@ -110,12 +110,14 @@ angular.module('bahmni.common.attributeTypes', []).directive('attributeTypes', [
                         document.getElementById("hibUsed-med").innerHTML = usedMoneyMed;
                         document.getElementById("hibUsed-opd").innerHTML = usedMoneyOpd;
                         document.getElementById("hibCopayment").innerHTML = isCopayment;
-                        // if (totalMoneyMed - usedMoneyMed > 50 || totalMoneyOpd - usedMoneyOpd > 50) {
-                        //     document.getElementById("Is NHIS Active").checked = true;
-                        // }
-                        // else {
-                        //     document.getElementById("Is NHIS Active").checked = false;
-                        // }
+                        if (totalMoneyMed - usedMoneyMed || totalMoneyOpd - usedMoneyOpd > 50) {
+                            document.getElementById("NHIS Member Active").checked = true;
+                            $scope.targetModel["NHIS Member Active"] = true;
+                        }
+                        else {
+                            document.getElementById("NHIS Member Active").checked = false;
+                            $scope.targetModel["NHIS Member Active"] = false;
+                        }
                     }).catch(function (error) {
                         alert("" + error.status);
                     });
