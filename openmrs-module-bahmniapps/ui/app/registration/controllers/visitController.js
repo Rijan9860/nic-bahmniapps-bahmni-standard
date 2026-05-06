@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('bahmni.registration')
-    .controller('VisitController', ['$window', '$scope', '$rootScope', '$state', '$bahmniCookieStore', 'patientService', 'encounterService', '$stateParams', 'spinner', '$timeout', '$q', 'appService', 'openmrsPatientMapper', 'contextChangeHandler', 'messagingService', 'sessionService', 'visitService', '$location', '$translate',
+    .controller('VisitController', ['$window', '$scope', '$rootScope', '$http', '$state', '$bahmniCookieStore', 'patientService', 'encounterService', '$stateParams', 'spinner', '$timeout', '$q', 'appService', 'openmrsPatientMapper', 'contextChangeHandler', 'messagingService', 'sessionService', 'visitService', '$location', '$translate',
         'auditLogService', 'formService',
-        function ($window, $scope, $rootScope, $state, $bahmniCookieStore, patientService, encounterService, $stateParams, spinner, $timeout, $q, appService, openmrsPatientMapper, contextChangeHandler, messagingService, sessionService, visitService, $location, $translate, auditLogService, formService) {
+        function ($window, $scope, $rootScope, $http, $state, $bahmniCookieStore, patientService, encounterService, $stateParams, spinner, $timeout, $q, appService, openmrsPatientMapper, contextChangeHandler, messagingService, sessionService, visitService, $location, $translate, auditLogService, formService) {
             $rootScope.displayNepaliDates = appService.getAppDescriptor().getConfigValue('displayNepaliDates');
             var vm = this;
             var patientUuid = $stateParams.patientUuid;
@@ -15,6 +15,42 @@ angular.module('bahmni.registration')
             var visitLocationUuid = $rootScope.visitLocation;
             var redirectToDashboard = false;
             $scope.enableDashboardRedirect = _.some($rootScope.currentUser.privileges, { name: "app:clinical" }) && (appService.getAppDescriptor().getConfigValue("enableDashboardRedirect") || Bahmni.Registration.Constants.enableDashboardRedirect);
+
+            var patientUuid = patientUuid;
+            console.log("Patient UUID", patientUuid);
+
+            $http.get(
+                "/openmrs/ws/rest/v1/visit?patient=" + patientUuid + "&includeInactive=true&v=custom:(stopDatetime)"
+            ).then(function (response) {
+                var visits = response.data.results;
+                console.log("Visits", visits);
+
+                if (visits.length > 1 && visits[1].stopDatetime) {
+                    $scope.lastVisitDate = visits[1].stopDatetime;
+                    console.log("Last Visit Date (AD)", $scope.lastVisitDate);
+
+                    // Convert lastVisitDate to Nepali date
+                    var lastVisitDateParts = $scope.lastVisitDate
+                    .split("T")[0]
+                    .split("-"); // Extract year, month, day
+                    var nepaliDateEng = calendarFunctions.getBsDateByAdDate(
+                    parseInt(lastVisitDateParts[0]), // Year
+                    parseInt(lastVisitDateParts[1]), // Month
+                    parseInt(lastVisitDateParts[2]) // Day
+                    );
+                    $scope.lastVisitNepaliDate =
+                    calendarFunctions.getNepaliNumber(nepaliDateEng.bsYear) +
+                    "-" +
+                    calendarFunctions.getNepaliNumber(nepaliDateEng.bsMonth) +
+                    "-" +
+                    calendarFunctions.getNepaliNumber(nepaliDateEng.bsDate);
+                    console.log("Last Visit Date (Nepali)", $scope.lastVisitNepaliDate);
+                } else {
+                    $scope.lastVisitDate = "No visits yet";
+                }
+            }).catch(function (error) {
+                console.error("Error fetching visits:", error);
+            });
 
             var getPatient = function () {
                 var deferred = $q.defer();

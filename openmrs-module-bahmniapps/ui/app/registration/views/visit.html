@@ -24,6 +24,14 @@
                                 <label class="control-label"><strong>{{::patient.name}}</strong></label>
                             </div>
                         </div>
+                        <div class="form-field photocontainer-spacing clearfix">
+                            <div class="field-attribute">
+                                <label class="control-label">Last Visit Date : </label>
+                            </div>
+                            <div class="field-value">
+                                <label class="control-label"><strong><b>{{ lastVisitNepaliDate }}</b></strong></label>
+                            </div>
+                        </div>
                     </section>
                     <!-- TODO: need to find a better way to render the directive again on context change or after all the calls are made.-->
                     <section class="observation-section" ng-if="context">
