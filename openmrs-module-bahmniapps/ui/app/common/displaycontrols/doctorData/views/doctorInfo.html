@@ -1,0 +1,56 @@
+<div class="doctor-info">
+  <div>
+    <p>Prepared By</p>
+    <p><strong>Doctor Name:</strong> {{ fullName }}</p>
+    <p>NMC Number: {{ nmcNumber }}</p>
+  </div>
+
+  <div>
+    <p>Checked By</p>
+    <p><strong>Doctor Name:</strong> {{ fullName }}</p>
+    <p>NMC Number: {{ nmcNumber }}</p>
+  </div>
+
+  <div>
+    <select
+      ng-model="selectedConsultant"
+      ng-options="doc as doc.name for doc in consultants"
+      class="consultant-dropdown">
+      <option value="">Consultant</option>
+    </select>
+    <div ng-if="selectedConsultant">
+      <p style="margin-top: 12px">
+        <strong>Doctor Name:</strong> {{ consultantName }}
+      </p>
+      <p style="margin-top: 12px">NMC Number: {{ consultantNmc }}</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .doctor-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .doctor-info > div {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+  }
+
+  .doctor-info p {
+    margin: 5px 0;
+  }
+  .consultant-dropdown {
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    appearance: none; 
+    background: transparent; 
+    border: none; 
+    padding-right: 0;
+    cursor: pointer;
+  }
+</style>

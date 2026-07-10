@@ -96,6 +96,7 @@
                                     visit-summary="visitSummary"></treatment-data>
                 </div>
             </div>
+            
             <div data-ng-switch-when="admissionDetails" class="section">
                 <div ng-if="::section.config">
                     <admission-details patient-uuid="patient.uuid" params="::section.config"
@@ -150,6 +151,11 @@
                                             class="section-title"></bahmni-observation>
                     </ul>
                 </section>
+            </div>
+            <div data-ng-switch-when="doctorInformation">
+                <div ng-if="::section.config">
+                    <doctor-info full-name="fullName" nmc-number="nmcNumber"></doctor-info>
+                </div>
             </div>
         </div>
     </div>
