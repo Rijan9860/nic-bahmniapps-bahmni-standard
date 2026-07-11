@@ -24,6 +24,8 @@
             <li ng-repeat="(key, value) in patientContext.programAttributes">
                 {{::value.description |translate}}: {{value.value}}
             </li>
+            <li ng-if="patientContext.nhisNumber">NHIS Number: {{patientContext.nhisNumber}}</li>
+            <li ng-if="patientContext.nhisMemberActive">NHIS Member: {{patientContext.nhisMemberActive}}</li>
         </ul>
         <div class="patient-info hidden-tablet-above">
             <button type="button" class="prev-page" history-back ng-if="!allowNavigation">

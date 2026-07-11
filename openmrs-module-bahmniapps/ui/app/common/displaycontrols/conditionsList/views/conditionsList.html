@@ -22,10 +22,12 @@
                                 <div class="tree-list-item clearfix">
                                     <span class="testUnderPanel left"><label>{{ condition.displayString() }}</label></span>
                                     <div class="activeSince">
-
-                                    <span class="value-text-only" ng-if="condition.activeSince">
-                                        {{'CONDITION_LIST_ACTIVE_SINCE'|translate}} {{condition.activeSince | bahmniDate}}
-                                    </span>
+                                        <span class="value-text-only" ng-if="condition.activeSince" ng-if="displayNepaliDates">
+                                            {{'CONDITION_LIST_ACTIVE_SINCE'|translate}} {{condition.activeSince | npDate}}
+                                        </span>
+                                        <span class="value-text-only" ng-if="condition.activeSince" ng-if="!displayNepaliDates">
+                                            {{'CONDITION_LIST_ACTIVE_SINCE'|translate}} {{condition.activeSince | bahmniDate}}
+                                        </span>
                                         <button class="toggle fr" ng-if="::!condition.additionalDetail"
                                                 ng-class="{'has-notes': condition.additionalDetail}"
                                                 toggle="condition.showAdditionalDetail">

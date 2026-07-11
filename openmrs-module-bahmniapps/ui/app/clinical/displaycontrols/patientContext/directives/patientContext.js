@@ -35,8 +35,15 @@ angular.module('bahmni.clinical')
                     $scope.patientContext.image = Bahmni.Common.Constants.patientImageUrlByPatientUuid + $scope.patientContext.uuid;
                 }
                 $scope.patientContext.gender = $rootScope.genderMap[$scope.patientContext.gender];
-            });
+                $scope.patientContext.name = [$scope.patient.givenName, $scope.patient.familyName].join(' ');
+                if ($scope.patient['NHIS Number'] != null) {
+                    $scope.patientContext.nhisNumber = $scope.patient['NHIS Number'].value;
+                }
 
+                if ($scope.patient['NHIS Member Active'] != null) {
+                    $scope.patientContext.nhisMemberActive = $scope.patient['NHIS Member Active'].value;
+                }
+            });
             $scope.navigate = function () {
                 if ($scope.isConsultation) {
                     $scope.$parent.$parent.$broadcast("patientContext:goToPatientDashboard");

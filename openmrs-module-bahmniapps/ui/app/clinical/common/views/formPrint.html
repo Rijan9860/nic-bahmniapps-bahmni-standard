@@ -28,7 +28,10 @@
                                     <ul class="form-field" ng-if="bahmniObservations.length > 0">
                                         <li class="tableMargin" ng-repeat="obsGroup in ::bahmniObservations">
                                             <span class="tree-list-item row-click toggle-container" toggle="obsGroup.isOpen">
-                                                <span class="obs-date" ng-if="obsGroup.value.length > 0">
+                                                <span class="obs-date" ng-if="obsGroup.value.length > 0" ng-if="!displayNepaliDates">
+                                                    {{::obsGroup.date | npDateTime}}
+                                                </span>
+                                                <span class="obs-date" ng-if="obsGroup.value.length > 0" ng-if="displayNepaliDates">
                                                     {{::obsGroup.date | bahmniDateTime}}
                                                 </span>
                                             </span>

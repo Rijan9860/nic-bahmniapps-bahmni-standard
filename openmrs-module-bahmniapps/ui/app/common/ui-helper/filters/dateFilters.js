@@ -31,7 +31,14 @@ angular.module('bahmni.common.uiHelper')
         };
     }).filter('npDate', function () {
         return function (date) {
-            if (date && Bahmni.Common.Util.DateUtil.isValid(date)) {
+            if (!date) {
+                return date;
+            }
+            // Handle Unix timestamp (milliseconds)
+            if (angular.isNumber(date) || /^\d+$/.test(date.toString())) {
+                date = new Date(Number(date));
+            }
+            if (Bahmni.Common.Util.DateUtil.isValid(date)) {
                 var adDate = Bahmni.Common.Util.DateUtil.getDateWithoutTime(date).split("-");
                 var bsDate = calendarFunctions.getBsDateByAdDate(parseInt(adDate[0]), parseInt(adDate[1]), parseInt(adDate[2]));
                 return calendarFunctions.bsDateFormat("%y %M, %d", bsDate.bsYear, bsDate.bsMonth, bsDate.bsDate);

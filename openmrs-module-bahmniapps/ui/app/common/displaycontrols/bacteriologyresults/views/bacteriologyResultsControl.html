@@ -14,7 +14,11 @@
                             <span class="specimenId">{{specimen.specimenId}}</span>
                         </span>
 
-                        <span class="specimenCollectionDate fr">
+                        <span class="specimenCollectionDate fr" ng-if="displayNepaliDates">
+                            <i show-if-privilege="app:clinical:bacteriologyTab" class="fa fa-pencil fl" ng-click="editBacteriologySample(specimen)"></i>
+                            {{specimen.specimenCollectionDate | npDate}}
+                        </span>
+                        <span class="specimenCollectionDate fr" ng-if="!displayNepaliDates">
                             <i show-if-privilege="app:clinical:bacteriologyTab" class="fa fa-pencil fl" ng-click="editBacteriologySample(specimen)"></i>
                             {{specimen.specimenCollectionDate | bahmniDate}}
                         </span>

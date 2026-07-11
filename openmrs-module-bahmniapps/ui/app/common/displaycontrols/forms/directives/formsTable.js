@@ -6,6 +6,7 @@ angular.module('bahmni.common.displaycontrol.forms')
             var defaultController = function ($scope) {
                 $scope.shouldPromptBrowserReload = true;
                 $scope.showFormsDate = appService.getAppDescriptor().getConfigValue("showFormsDate");
+                $scope.displayNepaliDates = appService.getAppDescriptor().getConfigValue('displayNepaliDates');
                 var getAllObservationTemplates = function () {
                     return conceptSetService.getConcept({
                         name: "All Observation Templates",

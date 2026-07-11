@@ -14,10 +14,16 @@
             <td>District: <span class="value">{{patient.address.countyDistrict}}</span></td>
         </tr>
         <tr ng-switch-when="true">
-            <td colspan="3">Visit Date: <span class="value">{{(visitDate | bahmniDate) || (visitSummary.startDateTime | bahmniDate)}}</span></td>
+            <td colspan="3">Visit Date: 
+                <span class="value" ng-if="displayNepaliDates">{{(visitDate | npDate) || (visitSummary.startDateTime | npDate)}}</span>
+                <span class="value" ng-if="!displayNepaliDates">{{(visitDate | bahmniDate) || (visitSummary.startDateTime | bahmniDate)}}</span>
+            </td>
         </tr>
         <tr ng-switch-default ng-repeat="section in visitTabConfig.currentTab.sections" ng-if="section.type === 'patientInformation'">
-            <td colspan="2">Visit Date: <span class="value">{{(visitDate | bahmniDate) || (visitSummary.startDateTime | bahmniDate)}}</span></td>
+            <td colspan="2">Visit Date: 
+                <span class="value" ng-if="displayNepaliDates">{{(visitDate | npDate) || (visitSummary.startDateTime | npDate)}}</span>
+                <span class="value" ng-if="!displayNepaliDates">{{(visitDate | bahmniDate) || (visitSummary.startDateTime | bahmniDate)}}</span>
+            </td>
             <td ng-if="!section.config.hideProviderName">Doctor Name:
                 <span ng-show="providerNames || drugOrders[drugOrders.length-1].provider.name" class="ng-binding">
                     {{providerNames ? providerNames : drugOrders[drugOrders.length-1].provider.name }}

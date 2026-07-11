@@ -32,7 +32,8 @@
                 <td colspan="3" class="notes inline-notes">
                     <pre class="left ng-binding">{{::visitSummary.admissionDetails.notes}}</pre>
                     <div class="footer-note right">
-                        <span class="provider">{{::visitSummary.admissionDetails.provider}} {{::visitSummary.admissionDetails.date | bahmniTime}}</span>
+                        <span class="provider" ng-if="displayNepaliDates">{{::visitSummary.admissionDetails.provider}} {{::visitSummary.admissionDetails.date | npDateTime}}</span>
+                        <span class="provider" ng-if="!displayNepaliDates">{{::visitSummary.admissionDetails.provider}} {{::visitSummary.admissionDetails.date | bahmniTime}}</span>
                     </div>
                 </td>
             </tr>
@@ -58,7 +59,8 @@
                 <td colspan="3" class="notes inline-notes">
                     <pre class="left ng-binding">{{::visitSummary.dischargeDetails.notes}}</pre>
                     <div class="footer-note right">
-                        <span class="provider">{{::visitSummary.dischargeDetails.provider}} {{::visitSummary.dischargeDetails.date  | bahmniTime}}</span>
+                        <span class="provider" ng-if="displayNepaliDates">{{::visitSummary.dischargeDetails.provider}} {{::visitSummary.dischargeDetails.date  | npDateTime}}</span>
+                        <span class="provider" ng-if="!displayNepaliDates">{{::visitSummary.dischargeDetails.provider}} {{::visitSummary.dischargeDetails.date  | bahmniTime}}</span>
                     </div>
                 </td>
             </tr>
