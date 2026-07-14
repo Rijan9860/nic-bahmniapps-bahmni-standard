@@ -23,7 +23,6 @@ angular.module('bahmni.registration')
                 "/openmrs/ws/rest/v1/visit?patient=" + patientUuid + "&includeInactive=true&v=custom:(stopDatetime)"
             ).then(function (response) {
                 var visits = response.data.results;
-                console.log("Visits", visits);
 
                 if (visits.length > 1 && visits[1].stopDatetime) {
                     $scope.lastVisitDate = visits[1].stopDatetime;
@@ -77,6 +76,50 @@ angular.module('bahmni.registration')
                     $scope.observations = response.data.observations;
                 });
                 return deferred.promise;
+            };
+
+            $scope.updateToEmergency = function () {
+                var visitId = 4;
+                visitService.changeVisit(visitId, patientUuid).then(function (visitId, patientUuid) {
+                    $state.reload();
+                });
+                toaster.success({
+                    title: "EMERGENCY",
+                    body: "Changed to ER"
+                });
+            };
+
+            $scope.updateToOPD = function () {
+                var visitId = 5;
+                visitService.changeVisit(visitId, patientUuid).then(function (visitId, patientUuid) {
+                    $state.reload();
+                });
+                toaster.success({
+                    title: "OPD",
+                    body: "Changed to OPD"
+                });
+            };
+
+            $scope.updateToFollowUp = function () {
+                var visitId = 9;
+                visitService.changeVisit(visitId, patientUuid).then(function (visitId, patientUuid) {
+                    $state.reload();
+                });
+                toaster.success({
+                    title: "FOLLOW UP",
+                    body: "Changed to Followup"
+                });
+            };
+
+            $scope.updateToFree = function () {
+                var visitId = 10;
+                visitService.changeVisit(visitId, patientUuid).then(function (visitId, patientUuid) {
+                    $state.reload();
+                });
+                toaster.success({
+                    title: "FREE VISIT",
+                    body: "Changed to Free Visit"
+                });
             };
 
             var getAllForms = function () {
@@ -302,6 +345,121 @@ angular.module('bahmni.registration')
                     });
                 }
                 messagingService.showMessage('info', 'REGISTRATION_LABEL_SAVED');
+
+                try {
+                    var visitFeeFor = "";
+                    var visitUuid = vm.visitUuid;
+                    console.log("Visit Uuid", visitUuid);
+                    var visitFee = 0;
+                    var isFollowUp = 0;
+                    var departmentSent = "";
+                    console.log("Encounter Observations", $scope.encounter.observations);
+                    for (var i = 0; i < $scope.encounter.observations.length; i++) {
+                        // Check if Fee Information Concept UUID exists
+                        if ($scope.encounter.observations[i]["concept"]["uuid"] == "c446af3d-3f10-11e4-adec-0800271c1b75") {
+                            for (var j = 0; j < $scope.encounter.observations[i].groupMembers.length; j++) {
+                                // Check if Ticket Fee Concept UUID exists
+                                if ($scope.encounter.observations[i].groupMembers[j]["concept"]["uuid"] == "128789de-5293-4c67-918e-28ac7c7ea3dd") {
+                                    visitFeeFor = $scope.encounter.observations[i].groupMembers[j]["value"]["displayString"];
+                                    console.log("Visit Fee For", visitFeeFor);
+                                }
+                            }
+                        }
+                    }
+                    switch (visitFeeFor.toLowerCase()) {
+                    case "opd ticket":
+                        visitFee = 30;
+                        break;
+                    case "er ticket":
+                        visitFee = 50;
+                        break;
+                    case "ehs ticket":
+                        visitFee = 300;
+                        break;
+                    case "followup ticket":
+                        visitFee = 15;
+                        break;
+                    case "free followup ticket":
+                        visitFee = 0;
+                        break;
+                    case "opd followup":
+                        visitFee = 0;
+                        break;
+                    case "opd followup eye":
+                        visitFee = 0;
+                        break;
+                    case "opd followup dental":
+                        visitFee = 0;
+                        break;
+                    case "other visit":
+                        visitFee = 0;
+                        break;
+                    case "opd ticket anc":
+                        visitFee = 0;
+                        break;
+                    case "opd follow up anc":
+                        visitFee = 0;
+                        break;
+                    case "opd ticket immunization":
+                        visitFee = 0;
+                        break;
+                    case "opd ocmc":
+                        visitFee = 0;
+                        break;
+                    case "dialysis registration":
+                        visitFee = 0;
+                        break;
+                    case "art registration":
+                        visitFee = 0;
+                        break;
+                    case "emergency ssu":
+                        visitFee = 0;
+                        break;
+                    case "opd ssu":
+                        visitFee = 0;
+                        break;
+                    case "free ticket":
+                        visitFee == 0;
+                        break;
+                    case "family planning registration":
+                        visitFee = 0;
+                        break;
+                    case "poor":
+                        visitFee = 0;
+                        break;
+                    case "disable":
+                        visitFee = 0;
+                        break;
+                    case "senior citizen":
+                        visitFee = 0;
+                        break;
+                    case "below 10":
+                        visitFee = 0;
+                        break;
+                    case "above 60":
+                        visitFee = 0;
+                        break;
+                    case "fchb":
+                        visitFee = 0;
+                        break;
+                    case "copayment":
+                        visitFee = 5;
+                        break;
+                    case "insurance followup ticket":
+                        visitFee = 0;
+                        break;
+                    default:
+                        visitFee = 0;
+                    }
+                    $scope.visitTypePrice = "Rs " + visitFee;
+                    console.log("Visit Type Price", $scope.visitTypePrice);
+
+                    var visitUpdateUrl = "/openmrs/ws/rest/v1/bahmnicore/sql?fee=" + visitFee + "&followup=" + isFollowUp + "&visitUuid=" + visitUuid + "&dept=" + departmentSent + "&subdept=" + departmentSent + "&provider=RAM&q=emrapi.sqlGet.updateVisitFee&v=full";
+                    updateVisitFee(visitUpdateUrl);
+                }
+                catch (err) {
+                    console.log("" + err);
+                }
             };
 
             $scope.submit = function () {
@@ -318,6 +476,24 @@ angular.module('bahmni.registration')
                         return false;
                     }
                 });
+            };
+
+            var updateVisitFee = function (theUrl) {
+                try {
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.open("GET", theUrl);
+                    xmlhttp.setRequestHeader(
+                        "Content-Type",
+                        "application/json;charset=UTF-8"
+                    );
+                    xmlhttp.onload = function (e) {
+                        if (xmlhttp.status == 200) {
+                        }
+                    };
+                    xmlhttp.send();
+                } catch (err) {
+                    alert("" + err);
+                }
             };
 
             var getConceptSet = function () {
